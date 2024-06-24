@@ -9,9 +9,6 @@ from .models import Customer
 from .serializers import CustomerSerializer
 from rest_framework import status   
 from rest_framework.views import APIView
-from django.conf import settings
-from culqi.client import Culqi
-from culqi.resources import Charge
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -47,18 +44,3 @@ def registro_usuario(request):
         customers = Customer.objects.all()
         serializer = CustomerSerializer(customers, many=True)
         return Response(serializer.data)
-    
-class CulqiChargeView(APIView):
-    def post(self, request, *args, **kwargs):
-        culqi = Culqi(settings.CULQI_SECRET_KEY)
-        charge = Charge(culqi)
-        
-        data = {
-            "amount": request.data.get("amount"),
-            "currency_code": request.data.get("currency_code"),
-            "email": request.data.get("email"),
-            "source_id": request.data.get("source_id")
-        }
-        
-        response = charge.create(data)
-        return Response(response, status=status.HTTP_200_OK)

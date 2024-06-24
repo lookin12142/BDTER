@@ -27,6 +27,3 @@ class OrderItemSerializer(serializers.ModelSerializer):
         model = OrderItem
         fields = '__all__'
         
-class CreatePaymentIntentSerializer(serializers.Serializer):
-    amount = serializers.IntegerField()
-    currency = serializers.CharField(max_length=3)

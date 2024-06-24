@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,6 +27,7 @@ SECRET_KEY = 'django-insecure-#v2=wr9b)@s@9ragdm1#cmyxd#+&^08(#3e=j3^gg(l562qnf^
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+
 
 
 # Application definition
@@ -77,20 +79,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'baseteran.wsgi.application'
 
-CULQI_SECRET_KEY = 'tu-clave-secreta-culqi'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'myvetshop_db',  
-        'USER': 'root',           
-        'PASSWORD': '',          
-        'HOST': 'localhost',      
-        'PORT': '3306',          
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT', '3306'),
     }
 }
+
 
 
 # Password validation
