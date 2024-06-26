@@ -1,35 +1,43 @@
-version: '3.8'
-services:
-  db:
-    image: postgres:13
-    restart: always
-    environment:
-      - POSTGRES_DB=myvetshop_db
-      - POSTGRES_USER=lucas
-      - POSTGRES_PASSWORD=T3csup3637
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - tecsup
+                                                                                                                
+    services:
+      db:
+        image: mysql:8
+        restart: always
+        environment:
+          - MYSQL_DATABASE=myvetshop_db
+          - MYSQL_USER=lucas
+          - MYSQL_PASSWORD=T3csup3637
+          - MYSQL_ROOT_PASSWORD=T3csup3637
+          - MYSQL_ROOT_HOST=%
+        volumes:
+          - mysql_data:/var/lib/mysql
+        networks:
+          - tecsup
 
-  web:
-    build: .
-    command: gunicorn --bind 0.0.0.0:8000 baseteran.wsgi:application
-    volumes:
-      - .:/app
-    ports:
-      - "5432:5432"
-    depends_on:
-      - db
-    environment:
-      - DEBUG=1
-      - DJANGO_SECRET_KEY=django-insecure-#v2=wr9b)@s@9ragdm1#cmyxd#+&^08(#3e=j3^gg(l562qnf^
-      - DB_NAME=myvetshop_db
-      - DB_USER=lucas
-      - DB_PASSWORD=T3csup3637
-      - DB_PORT=5432
-    networks:
-      - tecsup
+      web:
+        build: .
+        command: gunicorn --bind 0.0.0.0:8000 baseteran.wsgi:application
+        volumes:  
+          - .:/app
+          - ./static:/app/static
+        ports:
+          - "8000:8000"
+        depends_on:
+          - db
+        environment:
+          - DEBUG=1
+          - DJANGO_SECRET_KEY=django-insecure-#v2=wr9b)@s@9ragdm1#cmyxd#+&^08(#3e=j3^gg(l562qnf^
+          - DB_NAME=myvetshop_db
+          - DB_USER=lucas
+          - DB_PASSWORD=T3csup3637
+          - DB_HOST=db
+          - DB_PORT=3306
+        networks:
+          - tecsup
 
-volumes:
-  mysql_data:
+    volumes:
+      mysql_data:
+
+    networks:
+      tecsup:
+    
